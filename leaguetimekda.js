@@ -12,7 +12,12 @@ function Champion (name) {
         this.totalgames = 0;
         this.winrate = 0;
         this.calckda = function() {
-            this.kda = (this.kills + (this.assists/3))/this.deaths
+            if(this.deaths == 0){
+                this.kda = "Perfect";
+            }
+            else {
+                this.kda = (this.kills + (this.assists / 3)) / this.deaths
+            }
         }
         this.calctotalgames = function(){
             this.totalgames = this.wins + this.losses;
