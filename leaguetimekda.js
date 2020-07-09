@@ -31,8 +31,9 @@ function Champion (name) {
             }
         }
 }
+var champarray = [];
 function dorest() {
-    var champarray = [];
+    champarray = [];
     var totalgames =0;
     var hours = 0;
     var min = 0;
