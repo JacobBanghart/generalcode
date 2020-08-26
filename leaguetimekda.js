@@ -11,6 +11,12 @@ function Champion (name) {
         this.losses = 0;
         this.totalgames = 0;
         this.winrate = 0;
+        this.minions = 0;
+        this.highestcspm = 0;
+        this.lifetimeaveragecspm = 0;
+        this.averagecspmfun = () => {
+            this.lifetimeaveragecspm (this.minions / this.min);
+        }
         this.calckda = function() {
             if(this.deaths == 0){
                 this.kda = "Perfect";
@@ -32,6 +38,7 @@ function Champion (name) {
         }
 }
 var champarray = [];
+var cspmperchamp = [];
 function dorest() {
     champarray = [];
     var totalgames =0;
@@ -41,6 +48,7 @@ function dorest() {
     var kills = 0;
     var deaths = 0;
     var assists = 0;
+    var highestcspm = 0;
     var matchhistory = document.getElementById("viewport-3").children[0].children[0].children[1].children[0].id + "-list";
     for (var i = 0; i < document.getElementById(matchhistory).children.length - 2; i++) {
         var element = document.getElementById(matchhistory).children[i];
@@ -51,6 +59,10 @@ function dorest() {
         var killselement = ele2.children[0].innerHTML;
         var deathselement = ele2.children[1].innerHTML;
         var assistselement = ele2.children[2].innerHTML;
+        var minionskilled = element.children[0].children[0].children[0].children[6].children[0].children[0].children[0].innerHTML;
+        var timeingame = element.children[0].children[0].children[0].children[7].children[0].children[0].innerHTML
+        var cspm = parseInt(minionskilled) / timeingame.substring(0,2);
+        console.log(cspm);
         var indexof = -1;
         for(var x = 0; x < champarray.length; x++){
             if(nameplate == champarray[x].name){
@@ -96,6 +108,13 @@ function dorest() {
         assists += parseInt(assistselement);
         champarray[indexof].assists += parseInt(assistselement)
         totalgames++;
+        champarray[indexof].minions += parseInt(minionskilled);
+        if(cspm > champarray[indexof].highestcspm){
+            champarray[indexof].highestcspm = cspm;
+        }
+        if(cspm > highestcspm){
+            highestcspm = cspm;
+        }
     }
     console.log("Individual hours: " + hours);
     console.log("Individual minutes: " + min);
@@ -111,10 +130,10 @@ function dorest() {
     var highestkda = 0;
     var highestname = 0;
     champarray.sort(function (a,b) {
-        if(a.name < b.name){
+        if(a.highestcspm < b.highestcspm){
             return -1;
         }
-        if(a.name > b.name){
+        if(a.highestcspm > b.highestcspm){
             return 1;
         }
         return 0;
@@ -123,6 +142,7 @@ function dorest() {
         champarray[y].calckda();
         champarray[y].calctotalgames();
         champarray[y].calcwinrate();
+        champarray[y].averagecspmfun();
         if(champarray[y].kda > highestkda){
             highestname = champarray[y].name;
             highestkda = champarray[y].kda;
@@ -130,6 +150,7 @@ function dorest() {
     }
     console.log("Your highest kda champ is "+highestname);
     console.log("With a "+highestkda+" kda");
+    console.log("Highest CSPM is :"+highestcspm);
     console.log(champarray);
 }
 var myInval = window.setInterval(function(){
