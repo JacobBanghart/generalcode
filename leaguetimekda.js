@@ -15,7 +15,7 @@ function Champion (name) {
         this.highestcspm = 0;
         this.lifetimeaveragecspm = 0;
         this.averagecspmfun = () => {
-            this.lifetimeaveragecspm (this.minions / this.min);
+            this.lifetimeaveragecspm = (this.minions / this.min);
         }
         this.calckda = function() {
             if(this.deaths == 0){
