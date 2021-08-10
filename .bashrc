@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -76,21 +76,38 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+alias dashboard="cd ~/dev-jb-dashboard.lmsproject.com/live"
+alias admin="cd ~/dev-jb-admin.lmsproject.lan/live"
+alias updateuat="git checkout master;git branch -D uat;git fetch origin uat;git checkout uat"
+alias updatestaging="git checkout master;git branch -D staging;git fetch origin staging;git checkout staging"
+alias updatemaster="updateuat;git checkout uat;git branch -D master;git fetch origin master;git checkout master"
+alias cacheclear="php bin/console cache:clear --no-warmup"
+alias stashsavefiles="git stash save --keep-index --include-untracked"
+alias prepbranch="rm -rf vendor/ && rm -rf node_modules/ && composer i && cacheclear && npm run routes && npm i"
+
+gsac(){
+        git stash;
+        git pull;
+        git stash apply;
+        git commit -a -m $1;
+}
+
+
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
