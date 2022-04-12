@@ -1,9 +1,0 @@
-[user]
-	name = JacobBanghart
-	email = jacob.banghart@ravenind.com
-[pull]
-	rebase = true
-[fetch]
-	prune = true
-[core]
-	editor = code --wait
